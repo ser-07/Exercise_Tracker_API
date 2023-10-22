@@ -38,7 +38,7 @@ app.get("/api/users", (req, res) => {
     resArr.push({ username: key, _id: value });
   });
 
-  res.json(resArr);
+  res.json(JSON.stringify(resArr));
 });
 
 app.post("/api/users/:_id/exercises", (req, res) => {
