@@ -73,14 +73,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   if (exerciseMap.has(id) === false) {
     exerciseMap.set(id, [
       {
-        date:
-          date != ""
-            ? date
-            : new Date(
-                `${new Date().getFullYear()}-${
-                  new Date().getMonth() + 1
-                }-${new Date().getDate()}`
-              ).toDateString(),
+        date: date != "" ? date : new Date().toDateString(),
         duration: duration,
         description: desc,
       },
@@ -89,14 +82,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
     exerciseMap.set(id, [
       ...exerciseMap.get(id),
       {
-        date:
-          date != ""
-            ? date
-            : new Date(
-                `${new Date().getFullYear()}-${
-                  new Date().getMonth() + 1
-                }-${new Date().getDate()}`
-              ).toDateString(),
+        date: date != "" ? date : new Date().toDateString(),
         duration: Number(duration),
         description: desc,
       },
@@ -115,14 +101,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   res.json({
     _id: id,
     username: userName,
-    date:
-      date != ""
-        ? date
-        : new Date(
-            `${new Date().getFullYear()}-${
-              new Date().getMonth() + 1
-            }-${new Date().getDate()}`
-          ).toDateString(),
+    date: date != "" ? date : new Date().toDateString(),
     duration: Number(duration),
     description: desc,
   });
