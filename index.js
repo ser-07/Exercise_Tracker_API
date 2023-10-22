@@ -49,12 +49,14 @@ app.get("/api/users", (req, res) => {
 app.post("/api/users/:_id/exercises", (req, res) => {
   //Fetch all the details from request body
   // console.log(req.params._id, req.body);
-  const id = req.params._id;
+  const id = String(req.params._id);
   const desc = req.body.description;
   const duration = Number(req.body.duration);
-  const date = req.body.date;
+  const date =
+    req.body.date == "" ? "" : new Date(req.body.date).toDateString();
   // const [description, duration, date] = req.body;
   // console.log(desc, duration, date);
+  console.log(date);
 
   //Get username and return usernot found if ID is not present.
   let userName = "";
