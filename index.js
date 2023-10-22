@@ -52,13 +52,14 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   const id = String(req.params._id);
   const desc = req.body.description;
   const duration = Number(req.body.duration);
+  console.log("Req date", new Date(req.body.date) == "Invalid Date");
   const date =
-    req.body.date == ""
+    new Date(req.body.date) == "Invalid Date"
       ? new Date().toDateString()
       : new Date(req.body.date).toDateString();
   // const [description, duration, date] = req.body;
   // console.log(desc, duration, date);
-  console.log(date);
+  // console.log(date);
 
   //Get username and return usernot found if ID is not present.
   let userName = "";
@@ -90,7 +91,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
       },
     ]);
 
-  console.log("Exercise Map", exerciseMap);
+  // console.log("Exercise Map", exerciseMap);
   // console.log(
   //   new Date(
   //     `${new Date().getFullYear()}-${
@@ -109,11 +110,10 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   });
 });
 
-
 //Sample output for the below route - {"_id":"6534fe884c3ec20832ca0b45","username":"Sreejith","count":2,
 //"log":[{"description":"test 2","duration":2,"date":"Sun Oct 22 2023"},{"description":"test1","duration":1,"date":"Sun Oct 22 2023"}]}
 
-app.get('/api/users/:_id/logs', (req,res)=>{
+app.get("/api/users/:_id/logs", (req, res) => {
   const id = req.params._id;
 
   //Fetch query params from req object
@@ -121,7 +121,7 @@ app.get('/api/users/:_id/logs', (req,res)=>{
   const fromInput = req.query.from;
   const toInput = req.query.to;
   const limitInput = req.query.limit;
-  console.log(fromInput, toInput, limitInput);
+  // console.log(fromInput, toInput, limitInput);
 
   //Get username and return usernot found if ID is not present.
   let userName = "";
@@ -158,7 +158,7 @@ app.get('/api/users/:_id/logs', (req,res)=>{
     //   0,
     //   limitInput == undefined ? exerciseMap.get(id).length + 1 : limitInput
     // );
-    console.log(exerciseArr);
+    // console.log(exerciseArr);
     // exerciseArr.filter(item => item.date >= fromInput)
   }
 
@@ -169,7 +169,7 @@ app.get('/api/users/:_id/logs', (req,res)=>{
     count: exerciseMap.has(id) === false ? 0 : exerciseMap.get(id).length,
     log: exerciseArr, //exerciseMap.get(id),
   });
-})
+});
 
 const listener = app.listen(process.env.PORT || 5000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
