@@ -18,7 +18,7 @@ const exerciseMap = new Map();
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
-  console.log(__dirname);
+  // console.log(__dirname);
   // res.sendFile(path.join(__dirname, "/views/index.html")); //For Vercel
 });
 
@@ -42,7 +42,7 @@ app.get("/api/users", (req, res) => {
     };
     resArr.push(objRefe);
   });
-  console.log(resArr);
+  // console.log(resArr);
   res.json(resArr);
 });
 
@@ -52,7 +52,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   const id = String(req.params._id);
   const desc = req.body.description;
   const duration = Number(req.body.duration);
-  console.log("Req date", new Date(req.body.date) == "Invalid Date");
+  // console.log("Req date", new Date(req.body.date) == "Invalid Date");
   const date =
     new Date(req.body.date) == "Invalid Date"
       ? new Date().toDateString()
@@ -118,8 +118,8 @@ app.get("/api/users/:_id/logs", (req, res) => {
 
   //Fetch query params from req object
   // console.log("query", req.query); //GET /api/users/:_id/logs?[from][&to][&limit]
-  const fromInput = req.query.from;
-  const toInput = req.query.to;
+  const fromInput = new Date(req.query.from).valueOf();
+  const toInput = new Date(req.query.to).valueOf();
   const limitInput = req.query.limit;
   // console.log(fromInput, toInput, limitInput);
 
@@ -137,12 +137,17 @@ app.get("/api/users/:_id/logs", (req, res) => {
   if (exerciseMap.has(id) != false) {
     exerciseArr = exerciseMap.get(id);
 
-    if (fromInput != undefined) {
-      exerciseArr = exerciseArr.filter((item) => item.date >= fromInput);
+    if (!isNaN(fromInput)) {
+      exerciseArr = exerciseArr.filter((item) => {
+        // console.log(new Date(item.date).valueOf());
+        new Date(item.date).valueOf() >= fromInput;
+      });
     }
 
-    if (toInput != undefined) {
-      exerciseArr = exerciseArr.filter((item) => item.date <= fromInput);
+    if (!isNaN(toInput)) {
+      exerciseArr = exerciseArr.filter(
+        (item) => new Date(item.date).valueOf() <= fromInput
+      );
     }
 
     if (limitInput != undefined) {
