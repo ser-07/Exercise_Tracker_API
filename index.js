@@ -26,7 +26,7 @@ app.post("/api/users", (req, res) => {
   //Check if the user already exists, if exists, return the same ID, else create new user and send the id
   const userName = req.body.username;
   if (userMap.has(userName) === false) {
-    userMap.set(userName, new Date().valueOf()); //Deriving unique ID from date
+    userMap.set(userName, String(new Date().valueOf())); //Deriving unique ID from date
   }
   // console.log(userMap, userName, userMap.has(userName), userMap.has(userName)==undefined);
   res.json({ username: userName, _id: userMap.get(userName) });
