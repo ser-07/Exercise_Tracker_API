@@ -34,10 +34,15 @@ app.post("/api/users", (req, res) => {
 
 app.get("/api/users", (req, res) => {
   let resArr = [];
+  let objRefe = {};
   userMap.forEach((value, key, userMap) => {
-    resArr.push({ _id: value, username: key });
+    objRefe = {
+      _id: value,
+      username: key,
+    };
+    resArr.push(objRefe);
   });
-
+  console.log(resArr);
   res.json(resArr);
 });
 
