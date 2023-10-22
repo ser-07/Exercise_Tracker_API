@@ -102,6 +102,31 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   });
 });
 
+
+//Sample output for the below route - {"_id":"6534fe884c3ec20832ca0b45","username":"Sreejith","count":2,
+//"log":[{"description":"test 2","duration":2,"date":"Sun Oct 22 2023"},{"description":"test1","duration":1,"date":"Sun Oct 22 2023"}]}
+
+app.get('/api/users/:_id/logs', (req,res)=>{
+  const id = req.params._id;
+
+   //Get username and return usernot found if ID is not present.
+   let userName = "";
+   userMap.forEach((value, key, userMap) => {
+     if (value == id) userName = key;
+   });
+ 
+   if (userName === "")
+     return res.json({ error: `No user exists with ID ${id}` });
+   
+     //Add the details in exerciseMap, Id will be the key of the map
+
+   console.log(exerciseMap.has(id));
+  res.json({ _id: id,
+    username: userName,
+  "count":exerciseMap.has(id) === false ? 0 : exerciseMap.get(id).length,
+"log": exerciseMap.get(id)})
+})
+
 const listener = app.listen(process.env.PORT || 5000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
