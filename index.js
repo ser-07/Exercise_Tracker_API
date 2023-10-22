@@ -118,10 +118,17 @@ app.get("/api/users/:_id/logs", (req, res) => {
 
   //Fetch query params from req object
   // console.log("query", req.query); //GET /api/users/:_id/logs?[from][&to][&limit]
-  const fromInput = new Date(req.query.from).valueOf();
-  const toInput = new Date(req.query.to).valueOf();
+  // console.log(`${req.query.from}`, `${req.query.from}`);
+  // const fromInput = new Date(`${req.query.from}`).valueOf();
+  const fromInput = new Date(
+    new Date(`${req.query.from}`).toDateString()
+  ).valueOf();
+  const toInput = new Date(
+    new Date(`${req.query.to}`).toDateString()
+  ).valueOf();
+  // const toInput = new Date(`${req.query.to}`).valueOf();
   const limitInput = req.query.limit;
-  // console.log(fromInput, toInput, limitInput);
+  // console.log(typeof fromInput, toInput, limitInput);
 
   //Get username and return usernot found if ID is not present.
   let userName = "";
@@ -139,15 +146,17 @@ app.get("/api/users/:_id/logs", (req, res) => {
 
     if (!isNaN(fromInput)) {
       exerciseArr = exerciseArr.filter((item) => {
-        // console.log(new Date(item.date).valueOf());
-        new Date(item.date).valueOf() >= fromInput;
+        console.log(new Date(item.date).valueOf() >= fromInput);
+        return new Date(item.date).valueOf() >= fromInput;
       });
     }
+    console.log(exerciseArr);
 
     if (!isNaN(toInput)) {
-      exerciseArr = exerciseArr.filter(
-        (item) => new Date(item.date).valueOf() <= fromInput
-      );
+      exerciseArr = exerciseArr.filter((item) => {
+        console.log(new Date(item.date).valueOf() <= toInput);
+        return new Date(item.date).valueOf() <= toInput;
+      });
     }
 
     if (limitInput != undefined) {
