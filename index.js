@@ -109,22 +109,59 @@ app.post("/api/users/:_id/exercises", (req, res) => {
 app.get('/api/users/:_id/logs', (req,res)=>{
   const id = req.params._id;
 
-   //Get username and return usernot found if ID is not present.
-   let userName = "";
-   userMap.forEach((value, key, userMap) => {
-     if (value == id) userName = key;
-   });
- 
-   if (userName === "")
-     return res.json({ error: `No user exists with ID ${id}` });
-   
-     //Add the details in exerciseMap, Id will be the key of the map
+  //Fetch query params from req object
+  // console.log("query", req.query); //GET /api/users/:_id/logs?[from][&to][&limit]
+  const fromInput = req.query.from;
+  const toInput = req.query.to;
+  const limitInput = req.query.limit;
+  console.log(fromInput, toInput, limitInput);
 
-   console.log(exerciseMap.has(id));
-  res.json({ _id: id,
+  //Get username and return usernot found if ID is not present.
+  let userName = "";
+  userMap.forEach((value, key, userMap) => {
+    if (value == id) userName = key;
+  });
+
+  if (userName === "")
+    return res.json({ error: `No user exists with ID ${id}` });
+
+  let exerciseArr = [];
+  //Getting the logs based on the query params
+  if (exerciseMap.has(id) != false) {
+    exerciseArr = exerciseMap.get(id);
+
+    if (fromInput != undefined) {
+      exerciseArr = exerciseArr.filter((item) => item.date >= fromInput);
+    }
+
+    if (toInput != undefined) {
+      exerciseArr = exerciseArr.filter((item) => item.date <= fromInput);
+    }
+
+    if (limitInput != undefined) {
+      exerciseArr = exerciseArr.slice(0, limitInput);
+    }
+    // .filter(
+    //   (item) =>
+    //     item.date >=
+    //       (fromInput == undefined ? new Date("01-01-1997") : fromInput) &&
+    //     item.date <= (toInput == undefined ? new Date() : toInput)
+    // );
+    // .slice(
+    //   0,
+    //   limitInput == undefined ? exerciseMap.get(id).length + 1 : limitInput
+    // );
+    console.log(exerciseArr);
+    // exerciseArr.filter(item => item.date >= fromInput)
+  }
+
+  //  console.log(exerciseMap.has(id));
+  res.json({
+    _id: id,
     username: userName,
-  "count":exerciseMap.has(id) === false ? 0 : exerciseMap.get(id).length,
-"log": exerciseMap.get(id)})
+    count: exerciseMap.has(id) === false ? 0 : exerciseMap.get(id).length,
+    log: exerciseArr, //exerciseMap.get(id),
+  });
 })
 
 const listener = app.listen(process.env.PORT || 5000, () => {
