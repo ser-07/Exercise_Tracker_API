@@ -1,7 +1,8 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
-require('dotenv').config()
+require("dotenv").config();
+var path = require("path");
 
 app.use(cors())
 app.use(express.static('public'))
@@ -16,7 +17,9 @@ const userMap = new Map();
 const exerciseMap = new Map();
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/views/index.html");
+  // res.sendFile(__dirname + "/views/index.html");
+  console.log(__dirname);
+  res.sendFile(path.join(__dirname, "/views/index.html")); //For Vercel
 });
 
 app.post("/api/users", (req, res) => {
