@@ -53,7 +53,9 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   const desc = req.body.description;
   const duration = Number(req.body.duration);
   const date =
-    req.body.date == "" ? "" : new Date(req.body.date).toDateString();
+    req.body.date == ""
+      ? new Date().toDateString()
+      : new Date(req.body.date).toDateString();
   // const [description, duration, date] = req.body;
   // console.log(desc, duration, date);
   console.log(date);
@@ -73,7 +75,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   if (exerciseMap.has(id) === false) {
     exerciseMap.set(id, [
       {
-        date: date != "" ? date : new Date().toDateString(),
+        date: date,
         duration: duration,
         description: desc,
       },
@@ -82,7 +84,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
     exerciseMap.set(id, [
       ...exerciseMap.get(id),
       {
-        date: date != "" ? date : new Date().toDateString(),
+        date: date,
         duration: Number(duration),
         description: desc,
       },
@@ -101,7 +103,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   res.json({
     _id: id,
     username: userName,
-    date: date != "" ? date : new Date().toDateString(),
+    date: date,
     duration: Number(duration),
     description: desc,
   });
