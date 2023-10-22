@@ -29,7 +29,7 @@ app.post("/api/users", (req, res) => {
     userMap.set(userName, new Date().valueOf()); //Deriving unique ID from date
   }
   // console.log(userMap, userName, userMap.has(userName), userMap.has(userName)==undefined);
-  res.json({ userName: userName, _id: userMap.get(userName) });
+  res.json({ username: userName, _id: userMap.get(userName) });
 });
 
 app.get("/api/users", (req, res) => {
