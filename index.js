@@ -35,7 +35,7 @@ app.post("/api/users", (req, res) => {
 app.get("/api/users", (req, res) => {
   let resArr = [];
   userMap.forEach((value, key, userMap) => {
-    resArr.push({ username: key, id: value });
+    resArr.push({ username: key, _id: value });
   });
 
   res.json(resArr);
@@ -46,7 +46,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   // console.log(req.params._id, req.body);
   const id = req.params._id;
   const desc = req.body.description;
-  const duration = req.body.duration;
+  const duration = Number(req.body.duration);
   const date = req.body.date;
   // const [description, duration, date] = req.body;
   // console.log(desc, duration, date);
@@ -81,15 +81,24 @@ app.post("/api/users/:_id/exercises", (req, res) => {
       {
         date:
           date ||
-          `${new Date().getFullYear()}-${
-            new Date().getMonth() + 1
-          }-${new Date().getDate()}`,
-        duration: duration,
+          new Date(
+            `${new Date().getFullYear()}-${
+              new Date().getMonth() + 1
+            }-${new Date().getDate()}`
+          ),
+        duration: Number(duration),
         description: desc,
       },
     ]);
 
   console.log("Exercise Map", exerciseMap);
+  // console.log(
+  //   new Date(
+  //     `${new Date().getFullYear()}-${
+  //       new Date().getMonth() + 1
+  //     }-${new Date().getDate()}`
+  //   )
+  // );
 
   //Send response in the desired format
   res.json({
@@ -97,10 +106,12 @@ app.post("/api/users/:_id/exercises", (req, res) => {
     username: userName,
     date:
       date ||
-      `${new Date().getFullYear()}-${
-        new Date().getMonth() + 1
-      }-${new Date().getDate()}`,
-    duration: duration,
+      new Date(
+        `${new Date().getFullYear()}-${
+          new Date().getMonth() + 1
+        }-${new Date().getDate()}`
+      ),
+    duration: Number(duration),
     description: desc,
   });
 });
