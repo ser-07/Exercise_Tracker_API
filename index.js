@@ -35,10 +35,10 @@ app.post("/api/users", (req, res) => {
 app.get("/api/users", (req, res) => {
   let resArr = [];
   userMap.forEach((value, key, userMap) => {
-    resArr.push({ username: key, _id: value });
+    resArr.push({ _id: value, username: key });
   });
 
-  res.json(JSON.stringify(resArr));
+  res.json(resArr);
 });
 
 app.post("/api/users/:_id/exercises", (req, res) => {
@@ -68,9 +68,11 @@ app.post("/api/users/:_id/exercises", (req, res) => {
       {
         date:
           date ||
-          `${new Date().getFullYear()}-${
-            new Date().getMonth() + 1
-          }-${new Date().getDate()}`,
+          new Date(
+            `${new Date().getFullYear()}-${
+              new Date().getMonth() + 1
+            }-${new Date().getDate()}`
+          ).toDateString(),
         duration: duration,
         description: desc,
       },
@@ -85,7 +87,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
             `${new Date().getFullYear()}-${
               new Date().getMonth() + 1
             }-${new Date().getDate()}`
-          ),
+          ).toDateString(),
         duration: Number(duration),
         description: desc,
       },
@@ -110,7 +112,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
         `${new Date().getFullYear()}-${
           new Date().getMonth() + 1
         }-${new Date().getDate()}`
-      ),
+      ).toDateString(),
     duration: Number(duration),
     description: desc,
   });
