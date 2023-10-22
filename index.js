@@ -74,12 +74,13 @@ app.post("/api/users/:_id/exercises", (req, res) => {
     exerciseMap.set(id, [
       {
         date:
-          date ||
-          new Date(
-            `${new Date().getFullYear()}-${
-              new Date().getMonth() + 1
-            }-${new Date().getDate()}`
-          ).toDateString(),
+          date != ""
+            ? date
+            : new Date(
+                `${new Date().getFullYear()}-${
+                  new Date().getMonth() + 1
+                }-${new Date().getDate()}`
+              ).toDateString(),
         duration: duration,
         description: desc,
       },
@@ -89,12 +90,13 @@ app.post("/api/users/:_id/exercises", (req, res) => {
       ...exerciseMap.get(id),
       {
         date:
-          date ||
-          new Date(
-            `${new Date().getFullYear()}-${
-              new Date().getMonth() + 1
-            }-${new Date().getDate()}`
-          ).toDateString(),
+          date != ""
+            ? date
+            : new Date(
+                `${new Date().getFullYear()}-${
+                  new Date().getMonth() + 1
+                }-${new Date().getDate()}`
+              ).toDateString(),
         duration: Number(duration),
         description: desc,
       },
@@ -114,12 +116,13 @@ app.post("/api/users/:_id/exercises", (req, res) => {
     _id: id,
     username: userName,
     date:
-      date ||
-      new Date(
-        `${new Date().getFullYear()}-${
-          new Date().getMonth() + 1
-        }-${new Date().getDate()}`
-      ).toDateString(),
+      date != ""
+        ? date
+        : new Date(
+            `${new Date().getFullYear()}-${
+              new Date().getMonth() + 1
+            }-${new Date().getDate()}`
+          ).toDateString(),
     duration: Number(duration),
     description: desc,
   });
