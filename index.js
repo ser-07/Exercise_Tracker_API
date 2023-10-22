@@ -5,7 +5,7 @@ require("dotenv").config();
 var path = require("path");
 
 app.use(cors())
-app.use(express.static('public'))
+app.use(express.static(__dirname + "/public"));
 
 //Adding body parser config:
 const bodyParser = require('body-parser');
@@ -17,9 +17,9 @@ const userMap = new Map();
 const exerciseMap = new Map();
 
 app.get("/", (req, res) => {
-  // res.sendFile(__dirname + "/views/index.html");
+  res.sendFile(__dirname + "/views/index.html");
   console.log(__dirname);
-  res.sendFile(path.join(__dirname, "/views/index.html")); //For Vercel
+  // res.sendFile(path.join(__dirname, "/views/index.html")); //For Vercel
 });
 
 app.post("/api/users", (req, res) => {
